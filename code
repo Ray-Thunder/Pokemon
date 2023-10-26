@@ -1,1 +1,54 @@
-to do
+
+class Pokemon {
+
+    constructor(name, attack, defense, hp, luck) {
+        this.name = name;
+        this.attack = attack;
+        this.defense = defense;
+        this.hp = hp;
+        this.luck = luck;
+    }
+};
+
+function isLucky(pokemon) {
+    let canAttack = false;
+    result = Math.round((Math.random())*10)/10;
+    if(result < pokemon.luck) {
+        canAttack = true;
+    };
+    return canAttack;
+};
+
+function attackPokemon(pokemon, pokemon1) {
+    let damage = 0;
+    if(isLucky(pokemon)) {
+        damage = pokemon.attack - pokemon1.defense;
+    };
+    return damage;
+};
+
+function fight(pokemon, pokemon1) {
+    let attaquant = pokemon;
+    let defenseur = pokemon1;
+    let temp = pokemon;
+    let hpPokemon = pokemon.hp
+    let hpPokemon1 = pokemon1.hp
+    while(defenseur.hp > 0) {
+        defenseur.hp -= attackPokemon(attaquant, defenseur);
+        temp = attaquant;
+        attaquant = defenseur;
+        defenseur = temp;
+    };
+    if(pokemon.hp > pokemon1.hp) {
+        console.log(pokemon.name);
+    } else {
+        console.log(pokemon1.name);
+    };
+    // reset des hp de base
+    pokemon.hp = hpPokemon;
+    pokemon1.hp = hpPokemon1;
+};
+
+
+let bulbasaur = new Pokemon("Bulbasaur", 30, 5, 90, 0.3);
+let squirtle = new Pokemon("Squirtle", 25, 3, 110, 0.2);
