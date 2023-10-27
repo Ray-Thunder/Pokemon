@@ -1,0 +1,88 @@
+
+
+class Tueur {
+    constructor(name, pv) {
+        this.name = name;
+        this.pv = pv
+    }
+    attack(survivant) {
+        
+    }
+}
+
+let morts = []
+
+class Survivant {
+    constructor(name, caracteristique, deathProba = 0.8, dmgProba = 0.3, on_death_proba = 0.4, is_alive = true) {
+        this.name = name;
+        this.caracteristique = caracteristique;
+        this.deathProba = deathProba;
+        this.dmgProba = dmgProba;
+        this.on_death_proba = on_death_proba;
+        this.is_alive = is_alive
+    }
+    
+    action(killer) {
+        let test = Math.round(Math.random()*10)/10
+        if(this.caracteristique == "deathProba") {
+            if(test <= this.deathProba) {
+                cible.is_alive = false
+                morts.push(this.name);
+                console.log(killer.name + " a tué " + this.name);
+            }
+        } else if(this.caracteristique == "dmgProba") {
+            if(test <= this.dmgProba) {
+                killer.pv -= 10;
+                console.log(this.name + " a esquivé et a infligé 10 dmg à " + killer.name);
+            }
+        } else {
+            if(test <= this.on_death_proba) {
+                cible.is_alive = false
+                killer.pv -= 15;
+                morts.push(this.name);
+                console.log(this.name + " a infligé 15 dmg à " + killer.name + " en mourant")
+            }
+        }
+    }
+}
+
+let caracteristiques = ["deathProba", "dmgProba", "on_death_dmgProba"]
+let prenoms = ["nerd", "sportif", "blonde", "chien", "policier", "prof"]
+let survivants = []
+
+let prenom = null
+let caracteristique = null
+
+let tmp = prenoms.length;
+let tmp1 = caracteristiques.length;
+
+personnage1 = new Survivant(prenoms[Math.floor(Math.random() * tmp)], caracteristiques[Math.floor(Math.random()*tmp1)]);
+personnage2 = new Survivant(prenoms[Math.floor(Math.random() * tmp)], caracteristiques[Math.floor(Math.random()*tmp1)]);
+personnage3 = new Survivant(prenoms[Math.floor(Math.random() * tmp)], caracteristiques[Math.floor(Math.random()*tmp1)]);
+personnage4 = new Survivant(prenoms[Math.floor(Math.random() * tmp)], caracteristiques[Math.floor(Math.random()*tmp1)]);
+personnage5 = new Survivant(prenoms[Math.floor(Math.random() * tmp)], caracteristiques[Math.floor(Math.random()*tmp1)]);
+
+survivants.push(personnage1);
+survivants.push(personnage2);
+survivants.push(personnage3);
+survivants.push(personnage4);
+survivants.push(personnage5);
+
+jason = new Tueur("Jason", 100)
+let cible = null
+while(jason.pv > 0 && morts.length != 5) {
+    cible = survivants[Math.floor(Math.random()*5)];
+    if(cible.is_alive == true) {
+        cible.action(jason)
+    }
+}
+if(jason.pv < 0) {
+    str = ""
+    for(let i = 0; i < morts.length -1; i++) {
+        str += morts[i] + ", "
+    }
+    str += morts[morts.length-1]
+    console.log("Jason est mort, les survivants on gagné mais RIP à " + str)
+} else {
+    console.log(morts + " " + jason.pv)
+}
