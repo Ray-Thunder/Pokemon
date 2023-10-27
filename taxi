@@ -1,0 +1,37 @@
+
+class Personnage {
+    constructor(name, sante_mentale = 10) {
+        this.name = name;
+        this.sante_mentale = sante_mentale;
+    }  
+}
+
+class Trajet {
+    constructor(radio, feux = 30, changements = 0) {
+        this.radio = radio;
+        this.feux = feux;
+        this.changements = changements;
+    }
+}
+
+let musiques = ["Anissa", "Générique Pokemon", "Megalovania", "Spider dance", "Greater together"];
+
+let john = new Personnage("John");
+let trajet = new Trajet(musiques);
+let currentMusique = null;
+
+
+while(trajet.feux > 0 && john.sante_mentale > 0) {
+    trajet.feux--;
+    currentMusique = trajet.radio[Math.floor(Math.random() * 5)];
+    if(currentMusique == "Anissa") {
+        john.sante_mentale--;
+        trajet.changements++;
+    }
+    console.log("La musique actuelle est " + currentMusique + " et il reste " + trajet.feux + " feux restants!");
+}
+if(john.sante_mentale == 0) {
+    console.log("John a explosé!");
+} else {
+    console.log("John est arrivé et a changé de taxi " + trajet.changements + " fois!");
+}
